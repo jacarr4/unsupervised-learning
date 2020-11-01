@@ -1,3 +1,5 @@
+from data_loader import Dataset, get_dataset
+
 from time import time
 import numpy as np
 import matplotlib.pyplot as plt
