@@ -9,6 +9,11 @@ class Dataset( IntEnum ):
     Digits      = auto()
     PimaIndians = auto()
 
+best_params = {
+    Dataset.Digits:      20,
+    Dataset.PimaIndians: 4
+}
+
 def get_dataset( dataset : Dataset ):
     if dataset == Dataset.Digits:
         X_digits, y_digits = load_digits(return_X_y=True)
