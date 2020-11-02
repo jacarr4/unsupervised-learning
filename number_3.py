@@ -97,11 +97,13 @@ if __name__ == '__main__':
         else:
             raise ValueError( 'Invalid dimensionality reduction algorithm' )
 
-        N = 20
+        N = 40
 
         plt.xticks(range(2,N))
 
         print( 'Running reducer: %s' % reducer )
+
+        fit_times = []
 
         for metric in Metric:
 
@@ -109,7 +111,9 @@ if __name__ == '__main__':
             for n_clusters in range( 2, N ):
                 if args.clustering == 'kmeans':
                     kmeans = KMeans( init='k-means++', n_clusters=n_clusters, n_init=10 )
+                    t0 = time()
                     kmeans.fit( reduced_data )
+                    fit_times.append( time() - t0 )
                     x.append( n_clusters )
                     y.append( get_kmeans_metric( metric, kmeans, reduced_data, labels ) )
                 elif args.clustering == 'em':
@@ -126,3 +130,4 @@ if __name__ == '__main__':
         title = '%s - %s with %s' % ( dataset.name, 'K Means' if args.clustering == 'kmeans' else 'Expectation Maximization', reducer_title )
         plt.title( title )
         plt.show()
+        print( 'Mean fit time: %.2f' % np.mean( fit_times ) )

@@ -124,12 +124,12 @@ def compute_learning_graphs( dataset ):
     clf = MLPClassifier()
 
     # baseline
-    make_plot( fig, axes, clf, X, y )
-    plt.show()
+    # make_plot( fig, axes, clf, X, y )
+    # plt.show()
 
     # with reduced data
     n_components = best_params[ dataset ]
-    reduced_X = PCA( n_components = n_components ).fit_transform( X )
+    reduced_X = FastICA( n_components = n_components ).fit_transform( X )
     make_plot( fig, axes, clf, reduced_X, y )
     plt.show()
 
@@ -171,8 +171,8 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     # Learning graphs
-    # dataset = Dataset[ args.dataset ]
-    # compute_learning_graphs( dataset )
+    dataset = Dataset[ args.dataset ]
+    compute_learning_graphs( dataset )
 
     # Table
     dataset = Dataset[ args.dataset ]

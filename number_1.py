@@ -80,13 +80,32 @@ if __name__ == '__main__':
 
     plt.xticks(range(2,N))
 
+    # kmeans = KMeans( init='k-means++', n_clusters=4, n_init=10 )
+    # kmeans.fit( data )
+    # print(list(kmeans.labels_))
+    # print( list(labels ))
+    # print( [ (a,b) for a,b in zip( kmeans.labels_, labels ) ] )
+    # from collections import defaultdict
+    # d = defaultdict(int)
+    # for a,b in zip( kmeans.labels_, labels ):
+    #     d[ (a,b) ] += 1
+    
+    # print( d )
+    # exit(0)
+
+    fit_times = []
+
     for metric in Metric:
 
         x, y = [], []
         for n_clusters in range( 2, N ):
             if args.clustering == 'kmeans':
+                # t0 = time()
                 kmeans = KMeans( init='k-means++', n_clusters=n_clusters, n_init=10 )
+                t0 = time()
                 kmeans.fit( data )
+                fit_times.append( time() - t0 )
+                # print( 'Fit time: %.2fs' % ( time() - t0 ) )
                 x.append( n_clusters )
                 y.append( get_kmeans_metric( metric, kmeans, data, labels ) )
             elif args.clustering == 'em':
@@ -96,6 +115,9 @@ if __name__ == '__main__':
             else:
                 raise ValueError( 'Invalid clustering algorithm' )
 
+        # x.append( n_clusters )
+        # y.append( get_kmeans_metric( metric, kmeans, data, labels ) )
+
         plt.plot( [i for i in range(2,N)], y )
     plt.legend( [ m.name for m in Metric ] )
     plt.ylabel( 'Score' )
@@ -103,3 +125,4 @@ if __name__ == '__main__':
     title = '%s - %s' % ( dataset.name, 'K Means' if args.clustering == 'kmeans' else 'Expectation Maximization' )
     plt.title( title )
     plt.show()
+    print( 'Mean fit time: %.2f' % np.mean( fit_times ) )
