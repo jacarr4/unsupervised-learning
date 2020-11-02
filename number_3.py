@@ -97,7 +97,7 @@ if __name__ == '__main__':
         else:
             raise ValueError( 'Invalid dimensionality reduction algorithm' )
 
-        N = 40
+        N = 20
 
         plt.xticks(range(2,N))
 

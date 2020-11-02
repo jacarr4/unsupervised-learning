@@ -44,7 +44,8 @@ class DimReducer():
         avg_kurtoses = []
 
         for n_components in self.x:
-            reduced_data = FastICA(n_components = n_components).fit_transform(self.data)
+            ica = FastICA(n_components = n_components)
+            reduced_data = ica.fit_transform(self.data)
 
             k = kurtosis( reduced_data )
             m = np.mean( abs( k ) )
@@ -82,7 +83,7 @@ if __name__ == '__main__':
     n_samples, n_features, n_labels, data, labels = get_dataset( dataset )
 
     dr = DimReducer( n_features + 1, dataset, data )
-    dr.run_PCA()
-    dr.run_ICA()
+    # dr.run_PCA()
+    # dr.run_ICA()
     dr.run_RP()
-    dr.run_VT()
+    # dr.run_VT()
